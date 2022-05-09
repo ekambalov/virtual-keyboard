@@ -147,7 +147,7 @@ document.addEventListener('keydown', (e) =>{
 
 // changing language
 
-function runOnKeys(func, ...codes) {
+function runOnKeys( ...codes) {
     let pressed = new Set();
 
     document.addEventListener('keydown', function(event) {
@@ -167,7 +167,7 @@ function runOnKeys(func, ...codes) {
             currentLang = 'en'
         }
 
-      func();
+        changeKeyboard(currentLang,shiftMode,capsMode)
     });
 
     document.addEventListener('keyup', function(event) {
@@ -176,11 +176,7 @@ function runOnKeys(func, ...codes) {
 
   }
 
-  runOnKeys(
-    changeKeyboard(currentLang,shiftMode,capsMode),
-    16,
-    17
-  );
+  runOnKeys(16,17);
 
   // local storage
 
