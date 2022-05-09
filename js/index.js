@@ -181,3 +181,22 @@ function runOnKeys(func, ...codes) {
     16,
     17
   );
+
+  // local storage
+
+  function setLocalStorage() {
+    localStorage.setItem('currentLang', currentLang);
+    localStorage.setItem('capsMode', capsMode);
+  }
+  window.addEventListener('beforeunload', setLocalStorage)
+  
+  function getLocalStorage() {
+    if(localStorage.getItem('currentLang')) {
+      currentLang = localStorage.getItem('currentLang');
+      if(localStorage.getItem('capsMode')==='true') capsMode = true
+      if(localStorage.getItem('capsMode')==='false') capsMode = false
+      
+      changeKeyboard(currentLang,shiftMode,capsMode);
+    }
+  }
+  window.addEventListener('load', getLocalStorage)
