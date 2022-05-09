@@ -1,0 +1,51 @@
+
+.keyboard
+    &__wrapper
+        padding: 20px
+        max-width: 950px
+        min-width: 300px
+        height: 300px
+        margin: 0 auto
+        border: 1px solid black
+        border-radius: 10px
+        display: flex
+        flex-wrap: wrap
+        gap:  1.1%
+        background-color: $dark-l
+        user-select: none
+    &__item
+        user-select: none
+        width: 6%
+        height: 45px
+        padding: 5px
+        border: none
+        border-radius: 5px
+        overflow: hidden
+        cursor: pointer
+        background-color: $dark
+        color: $light
+        box-shadow: 0px 0px 5px 0px rgba(255, 255, 255, 0.5)
+        transition: .2s
+        &:hover
+            box-shadow: 0px 0px 10px 0px rgba(255, 255, 255, 0.8)
+        &:active
+            background-color: $dark-s
+        &--active
+            background-color: $dark-s
+    &__0
+        width: 4.7%
+    &__13
+        width: 9%
+    &__14
+        width: 7.6%
+    &__28
+        width: 10%
+    &__40
+        width: 10.8%
+        border: 1px solid #8cff00
+    &__41
+        width: 13.9%
+    &__52,&__53,&__60,&__61,&__62
+        width: 6.4%
+    &__57
+        width: 41.9%
