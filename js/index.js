@@ -28,13 +28,11 @@ const offShiftMode = () =>{
 }
 
 const keyOn = (key) => { 
-    let inputValue = input.value;
-    // input.value = shiftMode ? inputValue + key.en.shift : inputValue + key.en.unshift; 
     if(!capsMode){
-         input.value += (shiftMode) ? key[currentLang].shift.toUpperCase() : key[currentLang].shift.toLowerCase();
+         input.value += (shiftMode) ? key[currentLang].shift : key[currentLang].unshift;
     }
     if(capsMode){
-        input.value += (shiftMode) ? key[currentLang].shift.toLowerCase() : key[currentLang].shift.toUpperCase();
+        input.value += (shiftMode) ? key[currentLang].shift.toLowerCase() : key[currentLang].unshift.toUpperCase();
     }
     input.focus()
 }
@@ -83,15 +81,16 @@ document.addEventListener('keydown', (e) =>{
         if(e.keyCode==keyboard[i].keyCode) {
             keys[i].classList.add('keyboard__item--active')
             if(!capsMode){
-                if(checkKey(i)) input.value += (shiftMode) ? e.key.toUpperCase() : e.key.toLowerCase();
+                if(checkKey(i)) input.value += (shiftMode) ? keyboard[i][currentLang].shift : keyboard[i][currentLang].unshift;
             }
             if(capsMode){
-                if(checkKey(i)) input.value += (shiftMode) ? e.key.toLowerCase() : e.key.toUpperCase();
+                if(checkKey(i)) input.value += (shiftMode) ? keyboard[i][currentLang].shift.toLowerCase() : keyboard[i][currentLang].unshift.toUpperCase();
             }
 
         }
     }
 })
+
 document.addEventListener('keyup', (e) =>{  
     for(let i = 0; i < 63; i++) {
         if(e.keyCode==keyboard[i].keyCode) {
@@ -146,3 +145,39 @@ document.addEventListener('keydown', (e) =>{
 });
 
 
+// changing language
+
+function runOnKeys(func, ...codes) {
+    let pressed = new Set();
+
+    document.addEventListener('keydown', function(event) {
+      pressed.add(event.keyCode);
+
+      for (let code of codes) { // все ли клавиши из набора нажаты?
+        if (!pressed.has(code)) {
+          return;
+        }
+      }
+
+      pressed.clear();
+
+      if(currentLang === 'en') {
+          currentLang = 'bel'
+        } else {
+            currentLang = 'en'
+        }
+
+      func();
+    });
+
+    document.addEventListener('keyup', function(event) {
+      pressed.delete(event.code);
+    });
+
+  }
+
+  runOnKeys(
+    changeKeyboard(currentLang,shiftMode,capsMode),
+    16,
+    17
+  );
