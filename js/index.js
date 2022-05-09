@@ -5,9 +5,56 @@ import keyboard from './keyboard.js'
 
 createHTML();
 
+
 const body = document.querySelector('body');
 const keyWrapper = document.querySelector('.keyboard__wrapper');
+const input = document.querySelector('.input');
 
+
+let shiftMode = false;
+let currentLang = 'en';
+let capsMode = false;
+
+
+const onShiftMode = () =>{
+    shiftMode = true;
+    changeKeyboard(currentLang,shiftMode,capsMode);
+    input.focus()
+}
+const offShiftMode = () =>{
+    shiftMode = false;
+    changeKeyboard(currentLang,shiftMode,capsMode);
+    input.focus()
+}
+
+const keyOn = (key) => { 
+    let inputValue = input.value;
+    // input.value = shiftMode ? inputValue + key.en.shift : inputValue + key.en.unshift; 
+    if(!capsMode){
+         input.value += (shiftMode) ? key[currentLang].shift.toUpperCase() : key[currentLang].shift.toLowerCase();
+    }
+    if(capsMode){
+        input.value += (shiftMode) ? key[currentLang].shift.toLowerCase() : key[currentLang].shift.toUpperCase();
+    }
+    input.focus()
+}
+
+const checkKey = (i) =>{
+    if(i===13||i===14||i===28||i===40||i===41||(i>=52&&i<=56)||(i>=58&&i<=62)) return false
+    return true
+}
+
+function changeKeyboard(lang,shiftMod,capsMod) {
+    for(let i = 0; i<63; i++){
+     if(!shiftMod&&!capsMod)    keys[i].textContent = lang==='en'? keyboard[i].en.unshift : keyboard[i].bel.unshift 
+     if(shiftMod&&!capsMod)    keys[i].textContent = lang==='en'? keyboard[i].en.shift : keyboard[i].bel.shift 
+     if(!shiftMod&&capsMod&&checkKey(i))    keys[i].textContent = lang==='en'? keyboard[i].en.unshift.toUpperCase() : keyboard[i].bel.unshift.toUpperCase() 
+     if(shiftMod&&capsMod&&checkKey(i))    keys[i].textContent = lang==='en'? keyboard[i].en.shift.toLowerCase() : keyboard[i].bel.shift.toLowerCase() 
+    }
+}
+
+
+// creating keyboard
 
 let keys = [];
 
@@ -18,13 +65,84 @@ for(let i=0; i<63; i++){
     keyWrapper.append(keys[i]);
 }
 
-function changeKey(lang) {
-    for(let i = 0; i<63; i++){
-        keys[i].textContent = lang==='en'? keyboard[i].en.unshift : keyboard[i].bel.unshift 
-    }
+changeKeyboard('en',shiftMode,capsMode);
+
+// input by mouse
+
+for(let i = 0; i <63; i++){
+    keys[i].addEventListener('click',()=>{
+        if(checkKey(i)) keyOn(keyboard[i]);
+        input.focus()
+    })
 }
 
-changeKey('en');
+// input by keyboard
 
+document.addEventListener('keydown', (e) =>{  
+    for(let i = 0; i < 63; i++) {
+        if(e.keyCode==keyboard[i].keyCode) {
+            keys[i].classList.add('keyboard__item--active')
+            if(!capsMode){
+                if(checkKey(i)) input.value += (shiftMode) ? e.key.toUpperCase() : e.key.toLowerCase();
+            }
+            if(capsMode){
+                if(checkKey(i)) input.value += (shiftMode) ? e.key.toLowerCase() : e.key.toUpperCase();
+            }
+
+        }
+    }
+})
+document.addEventListener('keyup', (e) =>{  
+    for(let i = 0; i < 63; i++) {
+        if(e.keyCode==keyboard[i].keyCode) {
+            keys[i].classList.remove('keyboard__item--active')
+            
+         
+        }
+    }
+})
+
+// shift
+
+document.addEventListener('keydown', (e) =>{  
+    if(e.keyCode === 16) onShiftMode()
+
+})
+document.addEventListener('keyup', (e) =>{  
+    if(e.keyCode === 16) offShiftMode()
+
+})
+keys[41].addEventListener('mousedown', onShiftMode)
+keys[41].addEventListener('mouseup', offShiftMode)
+keys[41].addEventListener('mouseover', offShiftMode)
+keys[53].addEventListener('mousedown', onShiftMode)
+keys[53].addEventListener('mouseup', offShiftMode)
+keys[53].addEventListener('mouseover', offShiftMode)
+
+// backspace
+
+const backspace = () => {
+    input.value = input.value.slice(0,input.value.length-1)
+}
+
+keys[13].addEventListener('click',backspace);
+
+document.addEventListener('keydown', (e) =>{  
+    if(e.keyCode === 8) backspace()
+});
+
+// CapsLock
+
+const CapsLock = () => {
+    capsMode = !capsMode;
+    changeKeyboard(currentLang,shiftMode,capsMode);
+
+}
+
+keys[28].addEventListener('click', CapsLock);
+
+document.addEventListener('keydown', (e) =>{  
+    if(e.keyCode === 20) CapsLock()
+});
 
 

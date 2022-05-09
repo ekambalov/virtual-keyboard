@@ -7,7 +7,8 @@ export const createHTML = () => {
         title.classList.add('title');
         title.textContent = 'virtual keyboard';    
     const input = document.createElement('textarea');
-        input.classList.add('input');     
+        input.classList.add('input');  
+        input.disabled = 'disabled'   
     const keyboardWrapper = document.createElement('div');
         keyboardWrapper.classList.add('keyboard__wrapper');
 
