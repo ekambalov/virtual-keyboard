@@ -88,6 +88,38 @@ for (let i = 0; i < 63; i += 1) {
 document.addEventListener('keydown', (e) => {
   for (let i = 0; i < 63; i += 1) {
     if (e.keyCode === keyboard[i].keyCode) {
+      if (e.code === 'ShiftLeft') {
+        keys[41].classList.add('keyboard__item--active');
+        break;
+      }
+      if (e.code === 'ShiftRight') {
+        keys[53].classList.add('keyboard__item--active');
+        break;
+      }
+      if (e.code === 'ControlLeft') {
+        keys[54].classList.add('keyboard__item--active');
+        break;
+      }
+      if (e.code === 'ControlRight') {
+        keys[59].classList.add('keyboard__item--active');
+        break;
+      }
+      if (e.code === 'ControlLeft') {
+        keys[54].classList.add('keyboard__item--active');
+        break;
+      }
+      if (e.code === 'ControlRight') {
+        keys[59].classList.add('keyboard__item--active');
+        break;
+      }
+      if (e.code === 'AltLeft') {
+        keys[56].classList.add('keyboard__item--active');
+        break;
+      }
+      if (e.code === 'AltRight') {
+        keys[58].classList.add('keyboard__item--active');
+        break;
+      }
       keys[i].classList.add('keyboard__item--active');
       if (!capsMode) {
         if (checkKey(i)) {
@@ -154,7 +186,7 @@ document.addEventListener('keydown', (e) => {
   if (e.keyCode === 20) CapsLock();
 });
 
-// CapsLock
+// Enter
 
 const Enter = () => {
   input.value += '\n';
