@@ -38,7 +38,7 @@ const keyOn = (key) => {
 }
 
 const checkKey = (i) =>{
-    if(i===13||i===14||i===28||i===40||i===41||(i>=52&&i<=56)||(i>=58&&i<=62)) return false
+    if(i===13||i===14||i===28||i===40||i===41||(i>=53&&i<=56)||(i>=58&&i<=59)) return false
     return true
 }
 
@@ -144,6 +144,20 @@ document.addEventListener('keydown', (e) =>{
     if(e.keyCode === 20) CapsLock()
 });
 
+// CapsLock
+
+const Enter = () => {
+    input.value += '\n' ;
+
+}
+
+keys[40].addEventListener('click', Enter);
+
+document.addEventListener('keydown', (e) =>{  
+    if(e.keyCode === 13) Enter()
+});
+
+
 
 // changing language
 
@@ -196,3 +210,19 @@ function runOnKeys( ...codes) {
     }
   }
   window.addEventListener('load', getLocalStorage)
+
+  // Tab
+
+const Tab = () => {
+    input.value += '    ' ;
+
+}
+
+keys[14].addEventListener('click', Tab);
+
+document.addEventListener('keydown', (e) =>{  
+    if(e.keyCode === 9) {
+        Tab(); 
+        input.focus()
+    }
+});
